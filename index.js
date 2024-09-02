@@ -29,7 +29,12 @@ app.get("/api/:date?", function (req, res) {
   var date = new Date();
   if (d) {
     if (d.includes("-")) {
+      try {
       date = new Date(Date.parse(d));
+      } catch {
+        res.json({error: "Invalid Date"});
+        return;
+      }
     } else {
       if (d) {
         date = new Date(new Number(d));
@@ -37,7 +42,11 @@ app.get("/api/:date?", function (req, res) {
     }
   }
   console.log(date);
-  res.json({unix: date.getTime(), utc: date.toUTCString()});
+  if (date.toUTCString() === "Invalid Date") {
+    res.json({error: "Invalid Date"});
+  } else {
+    res.json({unix: date.getTime(), utc: date.toUTCString()});
+  }
 });
 
 
