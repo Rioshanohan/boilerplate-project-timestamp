@@ -26,9 +26,10 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date?", function (req, res) {
   var d = req.params.date;
+  console.log(d);
   var date = new Date();
   if (d) {
-    if (d.includes("-")) {
+    if (d.includes("-") || d.includes(",")) {
       try {
       date = new Date(Date.parse(d));
       } catch {
